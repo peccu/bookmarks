@@ -12,14 +12,11 @@ const app = new Vue({
     search: "",
     items: [
       {
-        edit: true,
+        edit: false,
         key: "https://google.com",
         meta: {
           title: "Google",
-          tags: [
-            "Google",
-            "search engine"
-          ]
+          tags: ["Google", "search engine"],
         },
       },
       {
