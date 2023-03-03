@@ -22,69 +22,75 @@
         class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg"
       >
         <div class="mx-auto max-w-md">
-          <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
-            <ul class="space-y-4">
-              <li v-for="(item, i) in items" :key="i">
-                <!-- link -->
-                <div class="flex items-center">
-                  <svg
-                    v-if="!item.edit"
-                    class="h-6 w-6 flex-none fill-transparent stroke-sky-500 stroke-2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    @click="item.edit = !item.edit;item.tagtext=item.meta.tags.join(',')"
-                  >
-                    <path
+          <div class="divide-y divide-gray-300/50">
+            <!-- above line -->
+            <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+              <ul class="space-y-4">
+                <li v-for="(item, i) in items" :key="i">
+                  <!-- link -->
+                  <div class="flex items-center">
+                    <svg
+                      v-if="!item.edit"
+                      class="h-6 w-6 flex-none fill-transparent stroke-sky-500 stroke-2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                    />
-                  </svg>
-
-                  <svg
-                    v-else
-                    class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    @click="item.meta.tags=item.tagtext.split(',');item.edit=false"
-                  >
-                    <circle cx="12" cy="12" r="11" />
-                    <path
-                      d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
-                      fill="none"
-                    />
-                  </svg>
-                  <span class="block ml-4">
-                    <a
-                      :href="item.key"
-                      target="_blank"
-                      class="text-sky-500 hover:text-sky-600"
-                      rel="noreferrer noopener"
-                      >{{item.key}}</a
+                      @click="item.edit = !item.edit;item.tagtext=item.meta.tags.join(',')"
                     >
-                  </span>
-                </div>
-                <!-- tags -->
-                <div class="block ml-10 my-1">
-                  <span
-                    class="mx-1 bg-sky-300 shadow-md rounded-sm px-2 py-1"
-                    v-for="(tag, k) in item.meta.tags"
-                  >
-                    {{tag}}
-                  </span>
-                </div>
-                <!-- form -->
-                <div v-if="item.edit" class="ml-10 w-full">
-                  <input
-                    type="text"
-                    placeholder="tags (comma separated)"
-                    v-model="item.tagtext"
-                    class="rounded-md"
-                    @keyup.enter.prevent="item.meta.tags=item.tagtext.split(',');item.edit=false"
-                  />
-                </div>
-              </li>
-            </ul>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                      />
+                    </svg>
+
+                    <svg
+                      v-else
+                      class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      @click="save(item)"
+                    >
+                      <circle cx="12" cy="12" r="11" />
+                      <path
+                        d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
+                        fill="none"
+                      />
+                    </svg>
+                    <span class="block ml-4">
+                      <a
+                        :href="item.key"
+                        target="_blank"
+                        class="text-sky-500 hover:text-sky-600"
+                        rel="noreferrer noopener"
+                        >{{item.key}}</a
+                      >
+                    </span>
+                  </div>
+                  <!-- tags -->
+                  <div class="block ml-10 my-1">
+                    <span
+                      class="mx-1 bg-sky-300 shadow-md rounded-sm px-2 py-1"
+                      v-for="(tag, k) in item.meta.tags"
+                    >
+                      {{tag}}
+                    </span>
+                  </div>
+                  <!-- form -->
+                  <div v-if="item.edit" class="ml-10 w-full">
+                    <input
+                      type="text"
+                      placeholder="tags (comma separated)"
+                      v-model="item.tagtext"
+                      class="rounded-md"
+                      @keyup.enter.prevent="save(item)"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- line -->
+            <div class="text-sm">{{ mes }}</div>
+            <!-- below line -->
           </div>
         </div>
       </div>

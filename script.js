@@ -9,6 +9,7 @@ const params = location.search
 const app = new Vue({
   el: "#app",
   data: {
+    mes: "",
     search: "",
     items: [
       {
@@ -30,9 +31,13 @@ const app = new Vue({
   },
   mounted() {
     console.log("mounted");
+    this.mes = "mounted";
+    if (!params.a || !params.b || !params.c) {
+      return;
+    }
     const that = this;
     const url = `https://${params.a}${params.b}/?token=${params.c}`;
-    /*fetch(url)
+    fetch(url)
       .then((e) => e.json())
       .then((e) => {
         console.log(e);
@@ -44,10 +49,20 @@ const app = new Vue({
           return i;
         });
       });
-      */
   },
   computed: {},
   methods: {
+    save(item) {
+      item.meta.tags = item.tagtext.split(",");
+      item.edit = false;
+      console.log(item);
+      this.mes = item;
+      const body = {
+        key: item.key,
+        meta: item.meta
+      }
+      // TODO impl like bookmarklet
+    },
     getItems() {
       console.log("get");
     },
