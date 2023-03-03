@@ -23,43 +23,50 @@
       >
         <div class="mx-auto max-w-md">
           <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
-
             <ul class="space-y-4">
               <li v-for="(item, i) in items" :key="i">
+                <!-- link -->
                 <div class="flex items-center">
-                  
-                <svg
-                  class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <circle cx="12" cy="12" r="11" />
-                  <path
-                    d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
-                    fill="none"
-                  />
-                </svg>
-                <span class="block ml-4">
-                  <a
-                    :href="item.key"
-                    target="_blank"
-                    class="text-sky-500 hover:text-sky-600"
-                    >{{item.key}}</a
+                  <svg
+                    class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                       :class="{'fill-sky-900': item.edit}"
+                       @click="item.meta.tags.push('123')"
                   >
-                </span>
-
+                    <circle cx="12" cy="12" r="11" />
+                    <path
+                      d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
+                      fill="none"
+                    />
+                  </svg>
+                  <span class="block ml-4">
+                    <a
+                      :href="item.key"
+                      target="_blank"
+                      class="text-sky-500 hover:text-sky-600"
+                      >{{item.key}}</a
+                    >
+                  </span>
                 </div>
+                <!-- tags -->
                 <div>
-                <span class="block ml-10">
-                  <span class="bg-slate-600 ring-1 text-white rounded-sm" v-for="(tag, k) in item.meta.tags">
-                  {{tag}}
+                  <span class="block ml-10">
+                    {{item.edit}}
+                    <span
+                      class="mx-1 bg-teal-600 shadow-md text-white rounded-sm px-2"
+                      v-for="(tag, k) in item.meta.tags"
+                    >
+                      {{tag}}
+                    </span>
                   </span>
-                  </span>
-
+                </div>
+                <!-- form -->
+                <div class="">
+                  <input type="text" placeholder="tags (comma separated)" :value="item.meta.tags.join(',')"/>
                 </div>
               </li>
             </ul>
-
           </div>
         </div>
       </div>
