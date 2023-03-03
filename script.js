@@ -12,12 +12,16 @@ const app = new Vue({
     search: "",
     items: [
       {
-        url: "https://google.com",
-        title: "Google",
+        key: "https://google.com",
+        meta: {
+          title: "Google",
+        },
       },
       {
-        url: "https://google.com",
-        title: "Google",
+        key: "https://google.com",
+        meta: {
+          title: "Google",
+        },
       },
     ],
   },

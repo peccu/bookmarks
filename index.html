@@ -1,26 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- 
-      This is an HTML comment
-      You can write text in a comment and the content won't be visible in the page
-    -->
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="https://glitch.com/favicon.ico" />
 
-    <!--
-      This is the page head - it contains info the browser uses
-      Like the title, which appears on the browser tab but not inside the page
-      Further down you'll see the content that displays in the page
-    -->
-    <title>Hello World!</title>
+    <title>myBookmarks</title>
 
-    <!-- The website stylesheet -->
     <link rel="stylesheet" href="/style.css" />
 
-    <!-- The website JavaScript file -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script src="/script.js" defer></script>
@@ -35,8 +23,11 @@
       >
         <div class="mx-auto max-w-md">
           <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+
             <ul class="space-y-4">
-              <li class="flex items-center" v-for="(link,i) in items" :key="i">
+              <li v-for="(item, i) in items" :key="i">
+                <div class="flex items-center">
+                  
                 <svg
                   class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
                   stroke-linecap="round"
@@ -48,16 +39,27 @@
                     fill="none"
                   />
                 </svg>
-                <p class="ml-4">
+                <span class="block ml-4">
                   <a
-                    :href="link.url"
+                    :href="item.key"
                     target="_blank"
                     class="text-sky-500 hover:text-sky-600"
-                    >{{link.url}}</a
+                    >{{item.key}}</a
                   >
-                </p>
+                </span>
+
+                </div>
+                <div>
+                <span class="block ml-10">
+                  <span class="bg-slate-600 ring-1 text-white rounded-sm" v-for="(tag, k) in item.meta.tags">
+                  {{tag}}
+                  </span>
+                  </span>
+
+                </div>
               </li>
             </ul>
+
           </div>
         </div>
       </div>
