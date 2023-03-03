@@ -16,6 +16,10 @@ const app = new Vue({
         key: "https://google.com",
         meta: {
           title: "Google",
+          tags: [
+            "Google",
+            "search engine"
+          ]
         },
       },
       {
@@ -31,15 +35,19 @@ const app = new Vue({
     console.log("mounted");
     const that = this;
     const url = `https://${params.a}${params.b}/?token=${params.c}`;
-    fetch(url)
+    /*fetch(url)
       .then((e) => e.json())
       .then((e) => {
         console.log(e);
         if (e.state !== "success") {
           return;
         }
-        that.items = e.bookmarks;
+        that.items = e.values.map((i) => {
+          i.edit = false;
+          return i;
+        });
       });
+      */
   },
   computed: {},
   methods: {
