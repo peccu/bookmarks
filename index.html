@@ -31,8 +31,8 @@
                     class="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                       :class="{'fill-sky-500': item.edit}"
-                       @click="item.edit = !item.edit"
+                    :class="{'fill-sky-500': item.edit}"
+                    @click="item.edit = !item.edit;item.tagtext=item.meta.tags.join(',')"
                   >
                     <circle cx="12" cy="12" r="11" />
                     <path
@@ -50,20 +50,24 @@
                   </span>
                 </div>
                 <!-- tags -->
-                <div class="block ml-10 flex justify-start">
-                    <span
-                      class="bg-teal-600 shadow-md text-white rounded-sm px-2"
-                      v-for="(tag, k) in item.meta.tags"
-                    >
-                      {{tag}}
-                    </span>
+                <div class="block ml-10 my-1">
+                  <span
+                    class="mx-1 bg-sky-300 shadow-md rounded-sm px-2 py-1"
+                    v-for="(tag, k) in item.meta.tags"
+                  >
+                    {{tag}}
+                  </span>
                 </div>
                 <!-- form -->
-                <div v-if="item.edit" class="flex justify-between ml-10">
-                  <input type="text" placeholder="tags (comma separated)" :value="item.meta.tags.join(',')"/>
-                  <button class="rounded-lg px-3 bg-sky-300" >
-                    Save
-                  </button>
+                <div v-if="item.edit" class="ml-10 my-2">
+                  <input
+                    type="text"
+                    placeholder="tags (comma separated)"
+                         v-model="item.tagtext"
+                         class="rounded-md"
+                  />
+                  <button class="rounded-md px-3 py-1 bg-sky-300" @click="item.meta.tags=item.tagtext.split(','))">Save</button>
+                  {{item.tagtext}}
                 </div>
               </li>
             </ul>

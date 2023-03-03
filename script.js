@@ -12,7 +12,7 @@ const app = new Vue({
     search: "",
     items: [
       {
-        edit: false,
+        edit: true,
         key: "https://google.com",
         meta: {
           title: "Google",
