@@ -33,6 +33,7 @@ const app = new Vue({
     console.log("mounted");
     this.mes = "mounted";
     if (!params.a || !params.b || !params.c) {
+      this.mes = "no params. demo mode";
       return;
     }
     const that = this;
@@ -42,12 +43,17 @@ const app = new Vue({
       .then((e) => {
         console.log(e);
         if (e.state !== "success") {
+          that.mes = e;
           return;
         }
         that.items = e.values.map((i) => {
           i.edit = false;
           return i;
         });
+      })
+      .catch((e) => {
+        that.mes = e;
+        return;
       });
   },
   computed: {},
@@ -59,8 +65,10 @@ const app = new Vue({
       this.mes = item;
       const body = {
         key: item.key,
-        meta: item.meta
-      }
+        meta: item.meta,
+      };
+      console.log(body);
+      this.mes = body;
       // TODO impl like bookmarklet
     },
     getItems() {
