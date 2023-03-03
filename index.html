@@ -59,7 +59,7 @@
                       :href="item.key"
                       target="_blank"
                       class="text-sky-500 hover:text-sky-600"
-                       rel="noreferrer noopener"
+                      rel="noreferrer noopener"
                       >{{item.key}}</a
                     >
                   </span>
@@ -80,8 +80,7 @@
                     placeholder="tags (comma separated)"
                     v-model="item.tagtext"
                     class="rounded-md"
-                                             @keyup.enter.prevent="item.meta.tags=item.tagtext.split(',');item.edit=false"
-
+                    @keyup.enter.prevent="item.meta.tags=item.tagtext.split(',');item.edit=false"
                   />
                 </div>
               </li>
