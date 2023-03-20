@@ -1,9 +1,10 @@
 // -*- js-indent-level: 2; -*-
 import Vue from "https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.esm.browser.js";
-import {marked} from "https://cdn.jsdelivr.net/npm/marked/+esm";
+import { marked } from "https://cdn.jsdelivr.net/npm/marked/+esm";
 import { formatDateTime } from "./src/date.js";
-import { sample, getListURL, fetchItems, save } from "./src/store.js";
+import { getListURL, fetchItems, save } from "./src/store.js";
 import { config, saveConfig, isValidConfig } from "./src/config.js";
+import { sample, parsetagtext } from "./src/bookmarks.js";
 
 // internet archives
 // https://web.archive.org/web/https://brabrabra
@@ -53,14 +54,13 @@ const app = new Vue({
         this.mes = "no params. demo mode";
         return;
       }
-      const url = getListURL(this.config);
-
       const setEdit = (item) => {
         item.edit = false;
         return item;
       };
       this.mes = "fetching...";
       const that = this;
+      const url = getListURL(this.config);
       fetchItems(url)
         .then((items) => {
           that.items = items.values.map(setEdit);
@@ -85,12 +85,7 @@ const app = new Vue({
         this.mes = "no params nor config. demo mode";
         return;
       }
-      const newtags = JSON.stringify(
-        item.tagtext
-          .split(",")
-          .map((e) => e.trim())
-          .sort()
-      );
+      const newtags = JSON.stringify(parsetagtext(item.tagtext));
       const oldtags = JSON.stringify(
         item.meta.tags.map((e) => e.trim()).sort()
       );
@@ -99,7 +94,7 @@ const app = new Vue({
         return;
       }
       this.mes = "modified. Saving...";
-      item.meta.tags = item.tagtext.split(",");
+      item.meta.tags = parsetagtext(item.tagtext);
       item.meta.comment = item.comment;
       console.log(item);
       this.mes = item;
@@ -111,13 +106,7 @@ const app = new Vue({
       console.log(body);
       this.mes = body;
       const that = this;
-      save(
-        this.config.savepost,
-        this.config.saveget,
-        this.config.base,
-        this.config.token,
-        body
-      ).then((e) => {
+      save(this.config, body).then((e) => {
         that.mes = "Saved. maybe.";
       });
     },
