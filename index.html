@@ -48,19 +48,15 @@
         }
         /* https://serversideup.net/using-tailwindcss-to-design-your-mobile-app/ */
         .safe-top {
-          padding-top: constant(safe-area-inset-top);
           padding-top: env(safe-area-inset-top);
         }
         .safe-left {
-          padding-left: constant(safe-area-inset-left);
           paddingleft: env(safe-area-inset-left);
         }
         .safe-right {
-          padding-right: constant(safe-area-inset-right);
           padding-right: env(safe-area-inset-right);
         }
         .safe-bottom {
-          padding-bottom: constant(safe-area-inset-bottom);
           padding-bottom: env(safe-area-inset-bottom);
         }
         .disable-scrollbars {
@@ -87,7 +83,7 @@
   <body>
     <div
       id="app"
-      class="antialiased flex min-h-screen flex-col items-center justify-center disable-scrollbars overflow-scroll bg-gray-50"
+      class="antialiased flex min-h-screen flex-col items-center justify-center disable-scrollbars overflow-scroll bg-gray-50 safe-bottom"
     >
       <!-- box -->
       <div
@@ -319,11 +315,9 @@
       </div>
       <!-- message notification -->
       <div
-        class="fixed bottom-0 w-full h-5 overflow-x-scroll text-sm safe-bottom bg-slate-100"
+        class="fixed bottom-0 w-full overflow-x-scroll text-sm safe-bottom bg-slate-100"
       >
-        <div class="flex justify-center">
-          <span>{{mes}}</span>
-        </div>
+        <div class="flex justify-center">{{mes}}</div>
       </div>
       <!-- app ends -->
     </div>
