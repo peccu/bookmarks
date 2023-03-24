@@ -1,3 +1,11 @@
+import { fetchItems, save } from "./store.js";
+import bookmarkleter from "./bookmarkleter.js";
+// import bookmarkleter from "https://cdn.jsdelivr.net/npm/bookmarkleter@1.1.0/+esm";
+// import bookmarkleter from "https://raw.githubusercontent.com/peccu/bookmarkleter/for-cdn/build/bookmarkleter.js";
+// import {bookmarkleter} from 'https://cdn.jsdelivr.net/gh/peccu/bookmarkleter@for-cdn/build/bookmarkleter.js'
+
+// const bookmarkleter = code => `javascript:`
+
 export const sample = [
   {
     edit: false,
@@ -28,7 +36,30 @@ export const parsetagtext = (text) =>
     .map((e) => e.trim())
     .sort();
 
-const bookmarklet = (base, postbase, getbase, token) => {
+export const fetchBookmarks = (config) => {
+  return fetchItems(config);
+};
+
+export const saveBookmark = (config, item) => {
+  const body = {
+    key: item.key,
+    meta: item.meta,
+    token: config.token,
+  };
+  console.log(body);
+  return save(config, body);
+};
+export const bookmarkletcode = (base, postbase, getbase, token) => {
+  return `
+  const base = '${base}';
+  const postbase = '${postbase}';
+  const getbase = '${getbase}';
+  const token = "${token}";
+  const parsetagtext = (text) =>
+  text
+    .split(",")
+    .map((e) => e.trim())
+    .sort();
   const tagtext = prompt("Input tags separated by commma");
   if (tagtext === null) {
     return;
@@ -78,7 +109,7 @@ const bookmarklet = (base, postbase, getbase, token) => {
     content: e.content,
   });
   const savepost = (postbase, base, options, saveget) => {
-    return fetch(`https://${postbase}${base}`, options)
+    return fetch(\`https://\${postbase}\${base}\`, options)
       .then((response) => response.json())
       .then((data) => alert(toStr(data)))
       .catch(saveget);
@@ -107,7 +138,7 @@ const bookmarklet = (base, postbase, getbase, token) => {
     // for url length limit
     delete body.meta.metatags;
     const query = encodeURIComponent(toStr(body));
-    return `https://${getbase}${base}/?token=${token}&q=${query}`;
+    return \`https://\${getbase}\${base}/?token=\${token}&q=\${query}\`;
   };
 
   const headers = new Headers();
@@ -136,5 +167,11 @@ const bookmarklet = (base, postbase, getbase, token) => {
   const geturl = genGetUrl(getbase, base, token, body);
   const savenewwindow = gensaveNewWindow(geturl);
   const saveget = gensaveget(geturl, savenewwindow);
-  return savepost(postbase, base, options, saveget);
+  return savepost(postbase, base, options, saveget);`;
+};
+
+export const bookmarklet = async (config) => {
+  return await bookmarkleter(
+    bookmarkletcode(config.base, config.savepost, config.saveget, config.token)
+  );
 };

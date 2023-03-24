@@ -1,4 +1,4 @@
-export const getListURL = (config) =>
+const getListURL = (config) =>
   `https://${config.getlist}${config.base}/?token=${config.token}`;
 
 const saveGET = (getbase, token, body) => {
@@ -39,10 +39,8 @@ export const save = (config, body) => {
   return savePOST(postbase, getbase, t, body);
 };
 
-
-
-
-export const fetchItems = (url) => {
+export const fetchItems = (config) => {
+  const url = getListURL(config);
   return new Promise((resolve, reject) => {
     return fetch(url)
       .then((e) => e.json())
