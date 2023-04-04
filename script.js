@@ -11,9 +11,6 @@ import BookmarkletLink from "./components/BookmarkletLink.js";
 import ConfigForm from "./components/ConfigForm.js";
 import MenuLinks from "./components/MenuLinks.js";
 
-// internet archives
-// https://web.archive.org/web/https://brabrabra
-
 const app = createApp({
   components: {
     BookmarkList,
