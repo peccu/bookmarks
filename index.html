@@ -12,28 +12,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="client" />
 
-    <!--     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=a"> -->
-    <!--     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=a"> -->
-    <!--     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=a"> -->
-    <!--<link rel="mask-icon" href="/safari-pinned-tab.svg?v=a" color="#181818">-->
     <meta name="apple-mobile-web-app-title" content="📚mark" />
     <meta name="application-name" content="📚mark" />
     <meta name="msapplication-TileColor" content="#fff" />
-
-    <!--<meta name="theme-color" content="#efefef">-->
-    <!-- 
-    <meta name="theme-color" content="#181818" />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: light)"
-      content="#efefef"
-    />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: dark)"
-      content="#181818"
-    />
--->
     <link rel="icon" href="https://glitch.com/favicon.ico" />
 
     <title>myBookmarks</title>
@@ -85,258 +66,29 @@
       id="app"
       class="antialiased flex min-h-screen flex-col items-center justify-center disable-scrollbars overflow-scroll bg-gray-50 pb-6"
     >
-      <!-- box -->
-      <div
-        class="w-full rounded-lg bg-white px-1 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 safe-bottom"
-      >
-        <div>
-          <ul class="flex space-x-3" id="menu">
-            <li>
-              <a class="text-sky-500 hover:text-sky-600" href="#bookmark"
-                >Bookmarks</a
-              >
-            </li>
-            <li>
-              <a class="text-sky-500 hover:text-sky-600" href="#config"
-                >Config</a
-              >
-            </li>
-            <li>
-              <a class="text-sky-500 hover:text-sky-600" href="#bookmarklet"
-                >Bookmarklet</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="flex justify-center">
-          <div>
-            <input
-              type="search"
-              ref="search"
-              class="w-2xl rounded-md border-sky-400"
-              placeholder="Search term"
-              v-model="search"
-              autofocus
-            />
-            ({{filteredCount}}/{{items.length}})
-          </div>
-        </div>
-        <div class="mx-2 max-w-full">
-          <div class="divide-y divide-gray-300/50">
-            <!-- above line -->
-            <div class="flex justify-between">
-              <div class="text-lg" id="bookmark">Bookmarks</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="h-6 w-6 flex-none fill-transparent stroke-sky-500 stroke-2 hover:stroke-sky-800"
-                @click="fetchAll()"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-                />
-              </svg>
-            </div>
-            <!-- line -->
-            <div class="py-2 text-base leading-7">
-              <ul class="space-y-2">
-                <li v-for="(item, i) in filteredItems" :key="i">
-                  <div class="flex justify-start items-start">
-                    <!-- icon -->
-                    <svg
-                      v-if="!item.edit"
-                      class="h-8 w-8 flex-none fill-transparent stroke-sky-500 stroke-2 hover:stroke-sky-800"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      @click="edit(item, i)"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                      />
-                    </svg>
-
-                    <svg
-                      v-else
-                      class="h-8 w-8 flex-none fill-sky-100 stroke-sky-500 stroke-2 hover:stroke-sky-800"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      @click="save(item)"
-                    >
-                      <circle cx="12" cy="12" r="11" />
-                      <path
-                        d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
-                        fill="none"
-                      />
-                    </svg>
-
-                    <div class="ml-1">
-                      <!-- link -->
-                      <a
-                        :href="item.key"
-                        target="_blank"
-                        class="text-lg text-sky-500 hover:text-sky-600"
-                        rel="noreferrer noopener"
-                        >{{item.meta.title || 'no title'}}</a
-                      >
-                      <!-- domain, timestamp -->
-                      <div class="">
-                        <span
-                          class="rounded-md bg-slate-200 px-1 text-xs text-slate-400"
-                        >
-                          {{ item.meta.domain || (new URL(item.key)).host }}
-                        </span>
-                        <span class="px-1 text-sm text-slate-400">
-                          {{ datetime(item.ts) }}
-                        </span>
-                      </div>
-                      <!-- tags -->
-                      <div class="space-x-2">
-                        <span
-                          class="rounded-md bg-sky-300 px-2 py-1 text-xs shadow-md"
-                          v-for="(tag, k) in item.meta.tags"
-                        >
-                          {{tag}}
-                        </span>
-                      </div>
-
-                      <!-- comment -->
-                      <div
-                        v-if="item.meta.comment"
-                        class="prose prose-zinc bg-slate-100 text-xs mt-1 px-2 py-1 rounded"
-                        v-html="mdrender(item.meta.comment)"
-                      ></div>
-                      <!-- form -->
-                      <div v-if="item.edit" class="w-full">
-                        <div>
-                          <input
-                            type="text"
-                            placeholder="tags (comma separated)"
-                            v-model="item.tagtext"
-                            class="mt-2 rounded-md px-1 py-1 text-sm"
-                            @keyup.enter.prevent="save(item)"
-                          />
-                        </div>
-                        <div class="w-full">
-                          <textarea
-                            class="w-full"
-                            rows="5"
-                            v-model="item.comment"
-                          ></textarea>
-                        </div>
-                        <div
-                          class="my-2 rounded-sm bg-gray-100 text-sm text-slate-500"
-                        >
-                          <pre class="overflow-x-scroll disable-scrollbars">
-{{JSON.stringify(item, false, 2)}}</pre
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <!-- below line -->
-            <div>
-              <h3 class="text-lg" id="config">Config</h3>
-              <div
-                class="overflow-x-scroll my-2 rounded-sm bg-gray-100 text-sm text-slate-500"
-              >
-                <pre>{{JSON.stringify(config, false, 2)}}</pre>
-              </div>
-              <ul class="flex flex-col justify-center">
-                <li>
-                  <div>base domain</div>
-                  <input
-                    type="text"
-                    class="leading-1 w-full p-1 text-sm"
-                    placeholder="base domain name"
-                    v-model="config.base"
-                  />
-                </li>
-                <li>
-                  <div>get list api</div>
-                  <input
-                    type="text"
-                    class="leading-1 w-full p-1 text-sm"
-                    placeholder="get list api subdomain"
-                    v-model="config.getlist"
-                  />
-                </li>
-                <li>
-                  <div>save api (POST)</div>
-                  <input
-                    type="text"
-                    class="leading-1 w-full p-1 text-sm"
-                    placeholder="save api (POST) subdomain"
-                    v-model="config.savepost"
-                  />
-                </li>
-                <li>
-                  <div>save api (GET)</div>
-                  <input
-                    type="text"
-                    class="leading-1 w-full p-1 text-sm"
-                    placeholder="save api (GET) subdomain"
-                    v-model="config.saveget"
-                  />
-                </li>
-                <li>
-                  <div>api token</div>
-                  <input
-                    type="password"
-                    class="leading-1 w-full p-1 text-sm"
-                    placeholder="api token"
-                    v-model="config.token"
-                  />
-                </li>
-              </ul>
-              <div>
-                <button
-                  class="block w-full rounded-sm text-lg mt-2 px-2 py-1 bg-sky-400 text-slate-100"
-                  @click="saveconfig(config)"
-                >
-                  Save
-                </button>
-
-                <button
-                  class="block w-full bg-sky-400 text-slate-100 rounded-sm text-lg mt-3 px-2 py-1"
-                  @click="window.location.reload()"
-                >
-                  Reload App
-                </button>
-              </div>
-            </div>
-            <!-- below line -->
-            <div>
-              <h3 class="text-lg" id="bookmarklet">Bookmarklet</h3>
-              <div
-                class="overflow-x-scroll my-2 rounded-sm"
-              >
-                Drag this link into bookmark
-                <a :href="bookmarklet" class="text-lg text-sky-500 hover:text-sky-600">Save bookmark</a>
-              </div>
-              <!--<pre>code</pre>-->
-            </div>
-            
-          </div>
-        </div>
+      <template v-if="true">
         <!-- box -->
-      </div>
-      <!-- message notification -->
-      <div
-        class="fixed bottom-0 w-full overflow-x-scroll text-sm safe-bottom bg-slate-100"
-      >
-        <div class="flex justify-center">{{mes}}</div>
-      </div>
-      <!-- app ends -->
+        <div
+          class="w-full rounded-lg bg-white px-1 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 safe-bottom"
+        >
+          <menu-links :setpage="setpage"></menu-links>
+          <div class="mx-2 max-w-full">
+            <component
+              :is="page"
+              :config="config"
+              :setmessage="setmessage"
+            ></component>
+          </div>
+          <!-- box -->
+        </div>
+        <!-- message notification -->
+        <div
+          class="fixed bottom-0 w-full overflow-x-scroll text-sm safe-bottom bg-slate-100"
+        >
+          <div class="flex justify-center">{{mes}}</div>
+        </div>
+        <!-- app ends -->
+      </template>
     </div>
   </body>
 </html>

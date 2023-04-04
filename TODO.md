@@ -1,13 +1,13 @@
 - move to github
 - [x] save comment
 - extract parts into bitsrc
-- split into components
+- [x] split into components
 - refactor js
-- router like switching components
+- [x] router like switching components
 - fade-out message
 - rotate fetch button
-- export import
-- bookmarklet link
+- [x] export import
+- [x] bookmarklet link
 - feedback from bookmarklet
 - [x] filter results
 - [x] shrink side padding
@@ -16,5 +16,5 @@
 - no title to basename
 - [x] comment rendering as md
 - store list and fetch after the last fetched time
-- feedback on save
+- [x] feedback on save
 - tweak meta tag
