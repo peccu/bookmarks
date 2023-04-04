@@ -1,10 +1,9 @@
 // -*- js-indent-level: 2; -*-
+import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+// import { createApp } from "https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.esm-browser.js";
 // import {
 //   createApp
-// } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
-import {
-  createApp
-} from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.prod.min.js";
+// } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.prod.min.js";
 import { config } from "./src/config.js";
 
 import BookmarkList from "./components/BookmarkList.js";
@@ -26,15 +25,15 @@ const app = createApp({
     return {
       config,
       mes: "",
-      page: 'BookmarkList',
+      page: "BookmarkList",
     };
   },
   methods: {
     setmessage(mes) {
       this.mes = mes;
     },
-    setpage(page){
-      this.page = page
+    setpage(page) {
+      this.page = page;
     },
   },
 });
